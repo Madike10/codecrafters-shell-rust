@@ -11,5 +11,5 @@ fn main() {
     let mut input = String::new();
     stdin.read_line(&mut input).unwrap();
     let trimmed_input = input.trim();
-    println!("Received: {}", trimmed_input);
+    println!("{}: command no found", trimmed_input);
 }
