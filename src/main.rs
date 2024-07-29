@@ -12,10 +12,17 @@ fn main() {
     while stdin.read_line(&mut input).is_ok() {
         if input.contains("exit") {
             return;
+        }else if input.contains("echo"){
+            let echo_input = input.trim_start_matches("echo ");
+            print!("{}", echo_input);
+            print!("$ ");
+            input.clear();
+            io::stdout().flush().unwrap();
+        }else{
+            println!("{}: command not found", input.trim());
+            print!("$ ");
+            input.clear();
+            io::stdout().flush().unwrap();
         }
-        println!("{}: command not found", input.trim());
-        print!("$ ");
-        input.clear();
-        io::stdout().flush().unwrap();
     };
 }
