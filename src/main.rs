@@ -15,6 +15,5 @@ fn main() {
         print!("$ ");
         input.clear();
         io::stdout().flush().unwrap();
-        stdin.read_line(&mut input).unwrap();
     }
 }
