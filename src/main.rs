@@ -10,6 +10,6 @@ fn main() {
     let stdin = io::stdin();
     let mut input = String::new();
     stdin.read_line(&mut input).unwrap();
-    let trimmed_input = input.trim();
-    println!("{}: command no found", trimmed_input);
+    let trimmed = input.trim();
+    println!("{}: command no found", trimmed);
 }
