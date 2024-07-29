@@ -10,5 +10,12 @@ fn main() {
     let stdin = io::stdin();
     let mut input = String::new();
     stdin.read_line(&mut input).unwrap();
-    println!("{}: command not found", input.trim());
+    
+    while input.trim().contains("invalid"){
+        println!("{}: command not found", input.trim());
+        print!("$ ");
+        input.clear();
+        io::stdout().flush().unwrap();
+        stdin.read_line(&mut input).unwrap();
+    }
 }
