@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, process::Command};
 #[allow(unused_imports)]
 use std::io::{self, Write};
 
@@ -28,9 +28,20 @@ fn main() {
             }else{
                 println!("{}: not found", &table_input[1]);
             }
+        } else {
+            let mut cmd_parts: Vec<&str> = input.trim().split_whitespace().collect();
+            let cmd_name = cmd_parts.remove(0);
 
-        }else{
-            println!("{}: command not found", input.trim());
+            match Command::new(cmd_name).args(&cmd_parts).status() {
+                Ok(status) => {
+                    if !status.success() {
+                        eprintln!("{}: command not found", cmd_name);
+                    }
+                },
+                Err(_) => {
+                    eprintln!("{}: command not found", cmd_name);
+                }
+            }
         }
         print!("$ ");
         input.clear();
