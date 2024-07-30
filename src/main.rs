@@ -1,10 +1,10 @@
-use std::{env, fmt::format};
+use std::{env};
 #[allow(unused_imports)]
 use std::io::{self, Write};
 
 fn main() {
     let command :Vec<&str> = vec!["echo", "cat", "exit", "type"];
-    let mut path_env_str = env::var("PATH").expect("Path cannot be empty");
+    let  path_env_str = env::var("PATH").expect("Path cannot be empty");
     // Uncomment this block to pass the first stage
     print!("$ ");
     io::stdout().flush().unwrap();
