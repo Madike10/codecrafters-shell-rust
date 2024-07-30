@@ -3,7 +3,7 @@ use std::env;
 use std::io::{self, Write};
 
 fn main() {
-    let command :Vec<&str> = vec!["echo", "cat", "exit", "type"];
+    let command :Vec<&str> = vec!["echo", "exit", "type"];
     let  path_env_str = env::var("PATH").expect("Path cannot be empty");
     // Uncomment this block to pass the first stage
     print!("$ ");
