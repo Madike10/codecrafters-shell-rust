@@ -28,6 +28,8 @@ fn main() {
             }else{
                 println!("{}: not found", &table_input[1]);
             }
+        }else if input.starts_with("pwd"){
+            println!("{}", env::current_dir().unwrap().display());
         } else {
             let mut cmd_parts: Vec<&str> = input.trim().split_whitespace().collect();
             let cmd_name = cmd_parts.remove(0);
