@@ -1,10 +1,10 @@
-use std::{env, process::Command};
 #[allow(unused_imports)]
 use std::io::{self, Write};
+use std::{env, process::Command};
 
 fn main() {
-    let command :Vec<&str> = vec!["echo", "exit", "pwd", "type"];
-    let  path_env_str = env::var("PATH").expect("Path cannot be empty");
+    let command: Vec<&str> = vec!["echo", "exit", "pwd", "cd", "type"];
+    let path_env_str = env::var("PATH").expect("Path cannot be empty");
     // Uncomment this block to pass the first stage
     print!("$ ");
     io::stdout().flush().unwrap();
@@ -14,22 +14,36 @@ fn main() {
     while stdin.read_line(&mut input).is_ok() {
         if input.starts_with("exit") {
             return;
-        }else if input.starts_with("echo"){
+        } else if input.starts_with("echo") {
             let echo_input = input.trim_start_matches("echo ");
             print!("{}", echo_input);
-        }else if input.starts_with("type "){
+        } else if input.starts_with("type ") {
             let table_input: Vec<&str> = input.trim().split(" ").collect();
-            if command.contains(&table_input[1]){
+            if command.contains(&table_input[1]) {
                 println!("{} is a shell builtin", &table_input[1]);
-            }else if let Some(path) = path_env_str.split(':').find(|s|{
-                std::fs::metadata(format!("{}/{}", &s, &table_input[1].trim())).is_ok()
-            }) {
-                println!("{} is {path}/{}", &table_input[1].trim(), &table_input[1].trim());
-            }else{
+            } else if let Some(path) = path_env_str
+                .split(':')
+                .find(|s| std::fs::metadata(format!("{}/{}", &s, &table_input[1].trim())).is_ok())
+            {
+                println!(
+                    "{} is {path}/{}",
+                    &table_input[1].trim(),
+                    &table_input[1].trim()
+                );
+            } else {
                 println!("{}: not found", &table_input[1]);
             }
-        }else if input.starts_with("pwd"){
+        } else if input.starts_with("pwd") {
             println!("{}", env::current_dir().unwrap().display());
+        } else if input.starts_with("cd") {
+            let cd_input: Vec<&str> = input.trim().split_whitespace().collect();
+            if let Ok(_) = env::set_current_dir(cd_input[1].trim()) {
+                // print!("$ ");
+                // input.clear();
+                // io::stdout().flush().unwrap();
+            } else {
+                println!("{}: No such file or directory", cd_input[1].trim());
+            }
         } else {
             let mut cmd_parts: Vec<&str> = input.trim().split_whitespace().collect();
             let cmd_name = cmd_parts.remove(0);
@@ -39,7 +53,7 @@ fn main() {
                     if !status.success() {
                         eprintln!("{}: command not found", cmd_name);
                     }
-                },
+                }
                 Err(_) => {
                     eprintln!("{}: command not found", cmd_name);
                 }
@@ -48,5 +62,5 @@ fn main() {
         print!("$ ");
         input.clear();
         io::stdout().flush().unwrap();
-    };
+    }
 }
