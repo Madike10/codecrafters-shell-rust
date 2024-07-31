@@ -37,10 +37,19 @@ fn main() {
             println!("{}", env::current_dir().unwrap().display());
         } else if input.starts_with("cd") {
             let cd_input: Vec<&str> = input.trim().split_whitespace().collect();
+            let mut target_path = cd_input[1].trim();
+            
+            // Check if the target is '~', indicating the home directory
+            if target_path == "~"{
+                if let Ok(home) = env::var("HOME"){
+                    target_path = home.as_str();
+                }else{
+                    eprintln!("cd: HOME not set");
+                    continue;
+                }
+            }
             if let Ok(_) = env::set_current_dir(cd_input[1].trim()) {
-                // print!("$ ");
-                // input.clear();
-                // io::stdout().flush().unwrap();
+
             } else {
                 println!("{}: No such file or directory", cd_input[1].trim());
             }
