@@ -50,7 +50,6 @@ fn main() {
             }
 
             if let Ok(_) = env::set_current_dir(&target_path) {
-                // Optionally, print a prompt after changing directories
             } else {
                 println!("{}: No such file or directory", target_path);
             }
